@@ -1,4 +1,4 @@
-import { headers } from "next/headers";
+import { cookies } from "next/headers";
 import MobileLockView from "@/components/os/MobileLockView";
 import VirtualDesktopTab from "@/components/os/VirtualDesktopTab";
 import { LanguageProvider } from "@/i18n/client";
@@ -10,6 +10,7 @@ interface Props {
 
 export default async function Page({ params }: Props) {
   const { osName, lang } = await params;
+  const cookieHeader = (await cookies()).toString();
   const res = await pubHono.api.desktop[":osName"].state.$get(
     {
       param: {
@@ -20,7 +21,7 @@ export default async function Page({ params }: Props) {
       init: {
         cache: "force-cache",
         next: { tags: ["desktop"] },
-        headers: await headers(),
+        headers: { cookie: cookieHeader },
       },
     },
   );
