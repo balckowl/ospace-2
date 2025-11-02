@@ -1,0 +1,52 @@
+"use client";
+
+import { Rocket } from "lucide-react";
+import type { Route } from "next";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/i18n/client";
+import Header from "../lp/layout/Header";
+import SectionTitle from "./shared/SectionTitle";
+
+type Props = {
+  osName: string;
+  lang: string;
+};
+
+export default function CreateSuccess({ osName, lang }: Props) {
+  const { t } = useTranslation(lang);
+  const title = t("createSuccess.title", { osName });
+  const desc = t("createSuccess.desc");
+  const btn = t("createSuccess.btn");
+
+  return (
+    <div>
+      <Header />
+      <div className="flex min-h-[calc(100dvh-70px)] items-center justify-center bg-black px-4">
+        <div className="w-full max-w-md">
+          {/* Welcome Card with Icon Extending Beyond */}
+          <div className="relative">
+            {/* Welcome Card */}
+            <div className="rounded-2xl p-8">
+              <SectionTitle title={title} desc={desc} />
+
+              {/* Go to OS Button */}
+              <Button
+                size="lg"
+                className="mx-auto flex items-center gap-2 rounded-xl font-medium text-lg text-white transition-all duration-200"
+              >
+                <Link
+                  href={`/os/${encodeURIComponent(osName)}` as Route}
+                  className="flex items-center gap-2"
+                >
+                  <Rocket width={15} height={15} />
+                  {btn}
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
